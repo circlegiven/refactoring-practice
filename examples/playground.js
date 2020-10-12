@@ -2,13 +2,15 @@ import plays from "../data/plays.js";
 import invoices from "../data/invoices.js";
 
 function statement(invoice, plays) {
-    let totalAmount = 0;
-
     let result = `청구 내역 (고객명: ${invoice.customer})\n`;
 
     for (let perf of invoice.performances) {
         // 청구 내역을 출력
         result += ` ${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience}석)\n`;
+    }
+
+    let totalAmount = 0;
+    for (let perf of invoice.performances) {
         totalAmount += amountFor(perf);
     }
     result += `총액: ${usd(totalAmount)}\n`;
