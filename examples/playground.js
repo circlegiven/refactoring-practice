@@ -3,26 +3,32 @@ import invoices from "../data/invoices.js";
 
 function statement(invoice, plays) {
     let totalAmount = 0;
-    let volumeCredits = 0;
+
     let result = `청구 내역 (고객명: ${invoice.customer})\n`;
     const format = new Intl.NumberFormat("en-US", {
         style: "currency", currency: "USD", minimumFractionDigits: 2
     }).format;
 
+    let volumeCredits = 0;
     for (let perf of invoice.performances) {
-
-        // 포인트를 적립
-        volumeCredits += Math.max(perf.audience - 30, 0);
-        // 희극 관객 5명 마다 추가포인트 제공
-        if ("comedy" === playFor(perf).type) {
-            volumeCredits += Math.floor(perf.audience / 5);
-        }
+        volumeCredits += volumeCreditsFor(perf);
         // 청구 내역을 출력
         result += ` ${playFor(perf).name}: ${format(amountFor(perf) / 100)} (${perf.audience}석)\n`;
         totalAmount += amountFor(perf);
     }
     result += `총액: ${format(totalAmount / 100)}\n`;
     result += `적립 포인트: ${volumeCredits}점\n`;
+    return result;
+}
+
+function volumeCreditsFor(aPerformance) {
+    let result = 0;
+    // 포인트를 적립
+    result += Math.max(aPerformance.audience - 30, 0);
+    // 희극 관객 5명 마다 추가포인트 제공
+    if ("comedy" === playFor(aPerformance).type) {
+        result += Math.floor(aPerformance.audience / 5);
+    }
     return result;
 }
 
