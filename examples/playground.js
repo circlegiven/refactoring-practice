@@ -2,6 +2,10 @@ import plays from "../data/plays.js";
 import invoices from "../data/invoices.js";
 
 function statement(invoice, plays) {
+    return renderPlainText(invoice, plays);
+}
+
+function renderPlainText(invoice, plays) {
     let result = `청구 내역 (고객명: ${invoice.customer})\n`;
 
     for (let perf of invoice.performances) {
@@ -73,6 +77,5 @@ function statement(invoice, plays) {
         return result;
     }
 }
-
 
 console.log(statement(invoices[0], plays));
