@@ -39,7 +39,23 @@ class PerformanceCalculator {
     }
 }
 
+class TragedyCalculator extends PerformanceCalculator {
+
+}
+
+class ComedyCalculator extends PerformanceCalculator {
+
+}
+
 function createPerformanceCalculator(aPerformance, aPlay) {
+    switch (aPlay.type) {
+        case "tragedy": // 비극
+            return new TragedyCalculator(aPerformance, aPlay);
+        case "comedy":  // 희극
+            return new ComedyCalculator(aPerformance, aPlay);
+        default:
+            throw new Error(`알수 없는 장르: ${aPlay.type}`);
+    }
     return new PerformanceCalculator(aPerformance, aPlay);
 }
 
